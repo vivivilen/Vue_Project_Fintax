@@ -61,7 +61,7 @@ export default {
           router.push('login');
         })
         .catch((err) => {
-          alert(err.response.data.error + '\n' + 'or you can use this email: emma.wong@reqres.in');
+          alert(err.response.data.error + '\n' + 'or you can use this email: emma.wong@reqres.in for register');
         })
         .then(() => {
           this.isLoading = false

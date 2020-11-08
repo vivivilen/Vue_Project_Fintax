@@ -57,12 +57,20 @@ export default {
             email: this.email,
             password: this.password,
           })
-          .then((res) => {
+          .then(async (res) => {
             if (
               res.data.token ===
               JSON.parse(localStorage.getItem("registered")).token
             ) {
               alert("Login succeed");
+
+              let idUser = JSON.parse(localStorage.getItem('registered')).id;
+
+              await axios.get(`https://reqres.in/api/users/${idUser}`)
+              .then(res => {
+                localStorage.setItem('loginUser', JSON.stringify(res.data.data));
+              })
+              .catch(err => console.log(err.response))
               router.push("dashboard");
             }
           })
