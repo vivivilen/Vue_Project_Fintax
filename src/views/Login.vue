@@ -50,20 +50,28 @@ export default {
       this.isLoading = true;
       if (!localStorage.getItem("registered")) {
         alert("Not register yet");
-        router.push("register");
+        router.push({ path: '/register'});
       } else if (localStorage.getItem("registered")) {
         await axios
           .post("https://reqres.in/api/login", {
             email: this.email,
             password: this.password,
           })
-          .then((res) => {
+          .then(async (res) => {
             if (
               res.data.token ===
               JSON.parse(localStorage.getItem("registered")).token
             ) {
               alert("Login succeed");
-              router.push("dashboard");
+
+              let idUser = JSON.parse(localStorage.getItem('registered')).id;
+
+              await axios.get(`https://reqres.in/api/users/${idUser}`)
+              .then(res => {
+                localStorage.setItem('loginUser', JSON.stringify(res.data.data));
+              })
+              .catch(err => console.log(err.response))
+              router.push({ path: "/dashboard"});
             }
           })
           .catch((err) => alert(err.response.data.error))
