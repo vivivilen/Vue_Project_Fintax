@@ -1,48 +1,84 @@
 <template>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Year</th>
-                <th>Pantone Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Fuchsia Rose</td>
-                <td>2001</td>
-                <td>17-2031</td>
-            </tr>
-        </tbody>
-    </table>
+  <div class="table-container">
+    <b-table
+      hover
+      :items="listEmployee"
+      :fields="tableHeader"
+      :per-page="perPage"
+      :current-page="currPage"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      bordered
+    ></b-table>
+
+    <form @submit.prevent="showDataPerPage" class="form-show-data">
+      <label for="show-data">Show data per-page: </label>
+      <input
+        type="number"
+        placeholder="Show data per-page"
+        min="1"
+        class="input-per-page"
+        v-model="showData"
+      />
+    </form>
+
+    <b-pagination
+      v-model="currPage"
+      :total-rows="total"
+      :per-page="perPage"
+      align="center"
+      @input="updatePage(currPage)"
+    ></b-pagination>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-    name: "Table",
-    async beforeMount() {
-        await axios.get('https://reqres.in/api/unknown')
-        .then(res => console.log(res.data))
-        .catch(err => console(err.response))
-    }
-    
-}
+  name: "Table",
+  props: ["employees", "tableHeader"],
+  data() {
+    return {
+      sortBy: "id",
+      sortDesc: false,
+      currPage: 1,
+      perPage: 6,
+      showData: 6,
+      total: this.employees.length,
+      listEmployee: this.employees,
+    };
+  },
+  methods: {
+    updatePage(currPage) {
+      this.$router.replace({ query: { page: currPage } });
+    },
+    showDataPerPage() {
+      if (this.showData > this.total) {
+        this.showData = this.total;
+      }
+      this.perPage = this.showData;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-    table {
-        border: 1px solid black;
+.table-container {
+  padding: 30px 30px 0 30px;
+  width: 100%;
+}
 
-        thead {
-            border: 1px solid red;
+.form-show-data {
+  margin-bottom: 20px;
 
-            tr {
-                border: 1px solid orange;
-            }
-        }
+  .input-per-page {
+    border: 1px solid lightgrey;
+    padding: 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+
+    &:focus {
+      outline: none;
     }
+  }
+}
 </style>

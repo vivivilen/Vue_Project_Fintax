@@ -58,10 +58,10 @@ export default {
         .then((res) => {
           localStorage.setItem('registered', JSON.stringify(res.data));
           alert('Register success!');
-          router.push('login');
+          router.push({ path: '/'});
         })
         .catch((err) => {
-          alert(err.response.data.error + '\n' + 'or you can use this email: emma.wong@reqres.in');
+          alert(err.response.data.error + '\n' + 'or you can use this email: emma.wong@reqres.in for register');
         })
         .then(() => {
           this.isLoading = false

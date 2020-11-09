@@ -3,33 +3,43 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import Dashboard from '../views/Dashboard'
+import Calculator from '../components/Calculator'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: Register,
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    meta: {
+      auth: true
+    }
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/calculator',
+    name: 'Calculator',
+    component: Calculator,
+    meta: {
+      auth: true
+    }
+  },
 ]
 
 const router = new VueRouter({
@@ -37,4 +47,23 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.auth)) {
+    if(localStorage.getItem('loginUser') === null) {
+      next({
+        name: 'Login'
+      })
+    } else {
+      next()
+    }
+  } else if(to.matched.some(record => record.meta.guest)) {
+    if(localStorage.getItem('loginUser') === null) {
+      next()
+    } else {
+      next({
+        name: 'Dashboard'
+      })
+    }
+  }
+})
 export default router
