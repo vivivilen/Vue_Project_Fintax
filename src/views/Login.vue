@@ -50,7 +50,7 @@ export default {
       this.isLoading = true;
       if (!localStorage.getItem("registered")) {
         alert("Not register yet");
-        router.push("register");
+        router.push({ path: '/register'});
       } else if (localStorage.getItem("registered")) {
         await axios
           .post("https://reqres.in/api/login", {
@@ -71,7 +71,7 @@ export default {
                 localStorage.setItem('loginUser', JSON.stringify(res.data.data));
               })
               .catch(err => console.log(err.response))
-              router.push("dashboard");
+              router.push({ path: "/dashboard"});
             }
           })
           .catch((err) => alert(err.response.data.error))

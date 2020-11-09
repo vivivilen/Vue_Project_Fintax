@@ -16,6 +16,7 @@
       <input
         type="number"
         placeholder="Show data per-page"
+        min="1"
         class="input-per-page"
         v-model="showData"
       />
@@ -62,7 +63,7 @@ export default {
 
 <style lang="scss" scoped>
 .table-container {
-  margin: 30px 30px 0 30px;
+  padding: 30px 30px 0 30px;
   width: 100%;
 }
 

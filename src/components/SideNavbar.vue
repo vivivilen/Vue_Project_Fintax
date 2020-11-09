@@ -8,6 +8,12 @@
             Dashboard
           </li>
         </router-link>
+        <router-link to="/calculator">
+          <li>
+              <b-icon icon="calculator" aria-hidden="true" class="icon"></b-icon>
+            Simple Calculator
+          </li>
+        </router-link>
         <li class="li-logout" @click="logOut">
           <b-icon icon="power" aria-hidden="true" class="icon"></b-icon>
           Log Out
@@ -26,7 +32,7 @@ export default {
       logOut() {
           localStorage.removeItem('loginUser');
           alert('You have been logout.')
-          router.push('login');
+          router.push({path: '/'});
       }
   }
 };
@@ -35,19 +41,19 @@ export default {
 <style lang="scss" scoped>
 .side-navbar {
   min-width: 200px;
-  width: 20vw;
+  width: 22%;
   height: auto;
   background: #24344b;
 
   .navbar-menu {
-    // border: 2px solid orange;
     height: 100vh;
-    margin-top: 30px;
+    padding-top: 30px;
+    width: 100%;
 
     .icon {
         width: 18px;
         height: 18px;
-        margin-right: 20px;
+        margin-right: 16px;
     }
 
     ul {
@@ -55,7 +61,6 @@ export default {
       padding: 0;
       display: flex;
       flex-direction: column;
-    //   border: 2px solid #2AA4B9;
       height: 100%;
 
       a {

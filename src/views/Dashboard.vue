@@ -6,9 +6,8 @@
       :employees="employees"
       :tableHeader="tableHeader"
     />
-
     <div v-else class="loader">
-      <b-spinner variant="primary" label="Spinning" class="loader"></b-spinner>
+      <b-spinner variant="primary" label="Spinning"></b-spinner>
     </div>
   </div>
 </template>
@@ -49,7 +48,7 @@ export default {
       })
       .catch((err) => {
         if (err.response.status === 429) {
-          alert("Too many request. Please try again!");
+          alert("Too many request. Please refresh!");
           console(err.response);
         }
       })
@@ -60,12 +59,13 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard {
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
 
   .loader {
-      margin: auto;
+    margin: auto;
+    width: 100%;
   }
 }
 </style>
